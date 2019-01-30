@@ -662,12 +662,14 @@ See also [`>>`](@ref), [`<<`](@ref).
 """
 function >>>(x::Integer, c::Integer)
     @_inline_meta
+    typemin(Int) <= c <= typemax(Int) ? x >>> (c % Int) : zero(x) >>> 0
+end
+function >>>(x::Integer, c::Unsigned)
     if c isa UInt
         throw(MethodError(>>>, (x, c)))
     end
-    typemin(Int) <= c <= typemax(Int) ? x >>> (c % Int) : zero(x) >>> 0
+    c <= typemax(UInt) ? x >>> (c % UInt) : zero(x) >>> 0
 end
->>>(x::Integer, c::Unsigned) = c <= typemax(UInt) ? x >>> (c % UInt) : zero(x) >>> 0
 >>>(x::Integer, c::Int) = c >= 0 ? x >>> unsigned(c) : x << unsigned(-c)
 
 # fallback div, fld, and cld implementations

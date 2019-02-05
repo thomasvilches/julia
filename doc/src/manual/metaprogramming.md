@@ -511,7 +511,7 @@ this is an extremely useful tool for debugging macros):
 
 ```julia-repl sayhello2
 julia> ex = macroexpand(Main, :(@sayhello("human")) )
-:((Main.println)("Hello, ", "human"))
+:(Main.println("Hello, ", "human"))
 
 julia> typeof(ex)
 Expr
@@ -524,7 +524,7 @@ There also exists a macro [`@macroexpand`](@ref) that is perhaps a bit more conv
 
 ```jldoctest sayhello2
 julia> @macroexpand @sayhello "human"
-:((println)("Hello, ", "human"))
+:(println("Hello, ", "human"))
 ```
 
 ### Hold up: why macros?
